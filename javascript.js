@@ -51,8 +51,11 @@ function convertNumberToWord(choice) {
 // playRound function - parameters getComputerChoice, getHumanChoice
 function playRound(computerChoice, humanChoice) {
 
-    let humanChoiceWord = convertNumberToWord(humanChoice)
     let computerChoiceWord = convertNumberToWord(computerChoice)
+    let humanChoiceWord = convertNumberToWord(humanChoice)
+
+    console.log("Player choice: " + humanChoiceWord)
+    console.log("Computer choice: " + computerChoiceWord)
 
     // console.log() results
     if (humanChoice == computerChoice) {
@@ -66,28 +69,29 @@ function playRound(computerChoice, humanChoice) {
     }
 };
 
-// create humanScore variable
-let humanScore = 0;
-
 // create computerScore variable
 let computerScore = 0;
 
+// create humanScore variable
+let humanScore = 0;
+
 // playGame function
 function playGame() {
-    let i = 0
+    let i = 1
 
     // sets number of rounds
     let gameRounds = 5
 
     // calls playRound()
-    while (i < gameRounds) {
-
+    while (i <= gameRounds) {
+        
         // prompt for new humanSelection
         const computerSelection = getComputerChoice()
         const humanSelection = getHumanChoice()
 
+        console.log("Round " + i)
         // play round
-        playRound(humanSelection, computerSelection)
+        playRound(computerSelection, humanSelection)
 
         // console.log() current scores
         console.log("Player score: " + humanScore)
