@@ -1,5 +1,3 @@
-// console.log("Hello World")
-
 // 0 = "rock"
 // 1 = "paper"
 // 2 = "scissors"
@@ -7,25 +5,6 @@
 function getComputerChoice() {
     let computerInt = Math.floor(Math.random() * 3)
     return computerInt
-};
-
-function getHumanChoice() {
-    let returnValue
-    const rockButton = document.getElementById("rock");
-    const paperButton = document.getElementById("paper");
-    const scissorsButton = document.getElementById("scissors");
-
-    rockButton.addEventListener("click", () => {
-        returnValue = 0
-    }); 
-    paperButton.addEventListener("click", () => {
-        returnValue = 1
-    });
-    scissorsButton.addEventListener("click", () => {
-        returnValue = 2
-    });
-
-    return returnValue;
 };
     
 function convertNumberToWord(choice) {
@@ -38,97 +17,96 @@ function convertNumberToWord(choice) {
 }
 
 function playRound(computerChoice, humanChoice) {
-
     let computerChoiceWord = convertNumberToWord(computerChoice)
     let humanChoiceWord = convertNumberToWord(humanChoice)
-
-    console.log(`Player Choice: ${humanChoiceWord}`)
-    console.log(`Computer Choice: ${computerChoiceWord}`)
-
+    
     if (humanChoice === computerChoice) {
-        console.log("Tie!");
+        roundResults.textContent = `Tie!`
     } else if (humanChoice === computerChoice + 1 || humanChoice === computerChoice - 2) {
-        console.log(`You win! ${humanChoiceWord} beats ${computerChoiceWord}`)
-        scores.humanScore++
+        roundResults.textContent = `You win! ${humanChoiceWord} beats ${computerChoiceWord}`
+        humanScore++
     } else {
-        console.log(`You lose! ${computerChoiceWord} beats ${humanChoiceWord}`)
-        scores.computerScore++
+        roundResults.textContent = `You lose! ${computerChoiceWord} beats ${humanChoiceWord}`
+        computerScore++
+    }
+
+    if (computerScore === maxScore || humanScore === maxScore) {
+        endGame();
+
     }
 };
 
 function displayScore(computerScore, humanScore) {
-    console.log(`Player Score: ${humanScore} | Computer Score: ${computerScore}`)
+    displayHumanScore.textContent = `Human Score: ${humanScore}`;
+    displayComputerScore.textContent = `Computer Score: ${computerScore}`;
 };
 
-function scoresFunc() {
-    const scores = {
-        computerScore: 0,
-        humanScore: 0
+function newGame() {
+    newGameButton.addEventListener("click", playGame);
+    newGameButton.addEventListener("click", () => {
+        
+        rockButton.style.visibility = "visible";
+        paperButton.style.visibility = "visible";
+        scissorsButton.style.visibility = "visible";
+        newGameButton.style.visibility = "hidden";
+    })
+}
+
+function endGame() {
+    if (computerScore === maxScore) {
+        roundResults.textContent = `Computer wins!`
+    } else {
+        roundResults.textContent = `Player wins!`
     }
-    return scores
+    gameButton.addEventListener("click", () => {
+        rockButton.style.visibility = "hidden";
+        paperButton.style.visibility = "hidden";
+        scissorsButton.style.visibility = "hidden";
+        // newGameButton.style.visibility = "visible";
+    })
 };
 
 function playGame() {
-    scores = scoresFunc()
-    let i = 1
+    computerScore = 0
+    humanScore = 0
+    let computerSelection = getComputerChoice()
 
-    // sets number of rounds
-    let maxScore = 5
+    // while (computerScore < maxScore && humanScore < maxScore) {
+    gameButton.addEventListener("click", () => {
+        return computerSelection = getComputerChoice()
+    });
 
-    // calls playRound()
-    if (scores.computerScore < maxScore && scores.humanScore < maxScore) {
-        // prompt for new humanSelection
-        // const computerSelection = getComputerChoice()
-        // const humanSelection = getHumanChoice()
-        
-        console.log("Round " + i)
+    rockButton.addEventListener("click", () => {
+        playRound(computerSelection, 0)});
+    paperButton.addEventListener("click", () => {
+        playRound(computerSelection, 1)});
+    scissorsButton.addEventListener("click", () => {
+        playRound(computerSelection, 2)});
 
-        // play round
+    gameButton.addEventListener("click", () => {
+        displayScore(computerScore, humanScore);
+    });
 
-        const rockButton = document.getElementById("rock");
-        const paperButton = document.getElementById("paper");
-        const scissorsButton = document.getElementById("scissors");
-
-        let computerSelection = getComputerChoice()
-        // let humanSelection = getHumanChoice()
-
-        const bttn = document.querySelector(".game-buttons");
-
-        bttn.addEventListener("click", () => {
-            return computerSelection = getComputerChoice()
-        });
-        // bttn.addEventListener("click", () => {
-        //     playRound(computerSelection, humanSelection);
-        // });
-
-        rockButton.addEventListener("click", () => {
-            playRound(computerSelection, 0)});
-        paperButton.addEventListener("click", () => {
-            playRound(computerSelection, 1)});
-        scissorsButton.addEventListener("click", () => {
-            playRound(computerSelection, 2)});
-
-        // console.log() current scores
-        bttn.addEventListener("click", () => {
-            displayScore(scores.computerScore, scores.humanScore);
-        });
-
-
-
-        // const btn = document.querySelector("button");
-
-        // btn.addEventListener("click", playRound(computerSelection, humanSelection));
-        // playRound(computerSelection, humanSelection)
-
-        // increments game round counter
-        i++;
-
-
-    }
 };
 
-let humanChoice = getHumanChoice()
-console.log(humanChoice)
 
-// calls playGame()
-// playGame()
+
+const newGameButton = document.getElementById("new-game");
+const gameButton = document.querySelector(".game-buttons");
+const rockButton = document.getElementById("rock");
+const paperButton = document.getElementById("paper");
+const scissorsButton = document.getElementById("scissors");
+
+let humanScore = 0;
+let computerScore = 0;
+const maxScore = 5;
+
+const roundResults = document.querySelector(".round-results");
+const displayHumanScore = document.getElementById("human-score");
+const displayComputerScore = document.getElementById("computer-score");
+
+rockButton.style.visibility = "hidden";
+paperButton.style.visibility = "hidden";
+scissorsButton.style.visibility = "hidden";
+
+newGame()
