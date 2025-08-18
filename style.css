@@ -1,0 +1,10 @@
+.game-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#rock, #paper, #scissors {
+    width: 150px;
+    height: 150px;
+}
